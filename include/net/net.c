@@ -38,14 +38,14 @@ struct Info setup_tcp_socket(int port) {
     return s;
 }
 
-// void listen(struct Socket *s) {
-//     int len;
-//     struct sockaddr_in cli;
+void write_string(int sock, const char *str)
+{
+    write(sock, str, strlen(str));
+}
 
-//     while(1)
-//     {
-//         len = sizeof(cli);
-//         int con = accept(s->main_socket, (struct sockaddr_in*)&cli, &len);
-//         (con < 0 ? err_exit("Unable to accept client!\n") : printf("Client accepted\n") );
-//     }
-// }
+void read_line(int sock, char *dest)
+{
+    char buffer[1024];
+    read(sock, buffer, sizeof(buffer));
+    strcpy(dest, buffer);
+}

